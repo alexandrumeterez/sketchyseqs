@@ -486,9 +486,10 @@ def mutate_seq(A, seq, mr):
 
 # generate sample dataset
 # last two columsn mutation rate is 1  -> totally random 
-def gen_seqs(N,A,num_samples, num_rates):
-    rates = np.linspace(1.0/num_rates,1,num_rates)     
-    rates[-2:] = rates[-1]  
+def gen_seqs(N,A,num_samples, num_rates=10, max_rate=1, rates=None):
+    if isinstance(rates,type(None)):
+      rates = np.linspace(1.0/num_rates,max_rate,num_rates)     
+      rates[-2:] = rates[-1]  
     samples = np.random.randint(0,A,size=(num_samples,len(rates)+1,N),dtype=np.int8)
     for i in tqdm.tqdm(range(num_samples),total=num_samples, desc='generating seqs '):
         for j,mr in enumerate(rates):
